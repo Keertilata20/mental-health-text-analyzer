@@ -2,35 +2,33 @@ import streamlit as st
 import joblib
 import random
 import time
+import pandas as pd
 
-# Load ML model
-model = joblib.load("model/depression_model.pkl")
-vectorizer = joblib.load("model/vectorizer.pkl")
+# -----------------------------
+# PAGE CONFIG
+# -----------------------------
 
 st.set_page_config(
-    page_title="TalkSpace AI",
+    page_title="TalkSpace",
     page_icon="🌿",
     layout="wide"
 )
 
-# -------------------------
+# -----------------------------
+# LOAD MODEL
+# -----------------------------
+
+model = joblib.load("model/depression_model.pkl")
+vectorizer = joblib.load("model/vectorizer.pkl")
+
+# -----------------------------
 # UI STYLE
-# -------------------------
+# -----------------------------
 
 st.markdown("""
 <style>
-
 body {
 background-color:#FAF7F2;
-}
-
-.stChatMessage {
-padding:14px;
-border-radius:14px;
-}
-
-[data-testid="stChatInput"] {
-border-radius:20px;
 }
 
 .block-container {
@@ -40,21 +38,21 @@ padding-top:2rem;
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------
+# -----------------------------
 # HEADER
-# -------------------------
+# -----------------------------
 
 st.markdown("""
-# 🌿 TalkSpace AI
-*A quiet place for your thoughts.*
+# 🌿 TalkSpace
 
-Share what's on your mind.  
-I'm here to listen.
+Your companion **🌿 Nira** is here to listen.
+
+*A quiet place for your thoughts.*
 """)
 
-# -------------------------
+# -----------------------------
 # SIDEBAR
-# -------------------------
+# -----------------------------
 
 mode = st.sidebar.selectbox(
 "Conversation Style",
@@ -64,118 +62,155 @@ mode = st.sidebar.selectbox(
 if st.sidebar.button("Clear Conversation"):
     st.session_state.messages = []
     st.session_state.topic_memory = []
+    st.session_state.emotion_history = []
     st.rerun()
 
-# -------------------------
+# -----------------------------
+# SESSION STATE
+# -----------------------------
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+if "topic_memory" not in st.session_state:
+    st.session_state.topic_memory = []
+
+if "emotion_history" not in st.session_state:
+    st.session_state.emotion_history = []
+
+# -----------------------------
+# CRISIS DETECTION
+# -----------------------------
+
+crisis_words = [
+"i want to die",
+"kill myself",
+"suicide",
+"end my life",
+"i can't live anymore",
+"i dont want to live",
+"life is pointless"
+]
+
+# -----------------------------
 # EMOTION KEYWORDS
-# -------------------------
+# -----------------------------
 
 emotion_keywords = {
+
 "loneliness":["lonely","alone","isolated","nobody"],
-"sadness":["sad","hopeless","empty","worthless"],
-"stress":["tired","exhausted","overwhelmed","burnt"],
-"social":["ignored","rejected","friends","roommates"]
+"sadness":["sad","hopeless","empty","worthless","down"],
+"stress":["tired","exhausted","overwhelmed","burnt","pressure"],
+"anxiety":["anxious","panic","nervous","overthinking"],
+"social":["ignored","rejected","friends","roommates","people"],
+"selfworth":["inferior","failure","useless","comparison"]
+
 }
 
 def detect_emotion(text):
+
     text = text.lower()
+
     for emotion,words in emotion_keywords.items():
         for w in words:
             if w in text:
                 return emotion
+
     return "general"
 
-# -------------------------
+# -----------------------------
 # COPING SUGGESTIONS
-# -------------------------
+# -----------------------------
 
 def coping_suggestions():
 
     suggestions = [
+
     "Take 5 slow deep breaths and focus on breathing.",
     "Step outside for a short walk or fresh air.",
     "Write what you're feeling in a journal.",
     "Send a small message to someone you trust.",
     "Listen to a song that comforts you.",
     "Drink some water and pause for a moment."
+
     ]
 
-    chosen = random.sample(suggestions,3)
+    return "\n".join([f"• {s}" for s in random.sample(suggestions,3)])
 
-    return "\n".join([f"• {c}" for c in chosen])
+# -----------------------------
+# RESPONSE POOLS
+# -----------------------------
 
-# -------------------------
-# EMPATHY POOLS
-# -------------------------
+validation_pool = [
 
-emotion_empathy = {
+"That sounds really difficult.",
+"I can understand why that would hurt.",
+"That must feel exhausting.",
+"Anyone in that situation would struggle.",
+"That sounds really frustrating."
 
-"loneliness":[
-"Feeling alone for a long time can be really heavy.",
-"Humans naturally need connection. Feeling lonely can hurt deeply."
-],
-
-"stress":[
-"It sounds like things have been draining your energy lately.",
-"That kind of exhaustion can slowly build up."
-],
-
-"sadness":[
-"That kind of feeling can weigh on someone quietly.",
-"It's understandable that this would affect you."
-],
-
-"social":[
-"Being around people who make you feel small can be exhausting.",
-"Difficult social environments can affect us more than we realize."
-],
-
-"general":[
-"Thanks for sharing that.",
-"I'm really glad you felt comfortable saying that."
 ]
 
-}
+support_pool = [
 
-friend_support = [
 "I'm here with you.",
 "You don't have to carry this alone.",
 "Your feelings make sense.",
-"Talking about it is a strong step."
+"I'm really glad you shared that.",
+"Talking about this is a strong step."
+
 ]
 
-# -------------------------
+curiosity_pool = [
+
+"How long have you been feeling this way?",
+"What part of this affects you the most?",
+"Did something happen recently?",
+"What usually goes through your mind when this happens?",
+"Would you like to tell me more about it?"
+
+]
+
+# -----------------------------
 # RESPONSE GENERATOR
-# -------------------------
+# -----------------------------
 
-def generate_response(prob,emotion,mode):
+def generate_response(prob, emotion, mode):
 
-    empathy = random.choice(emotion_empathy.get(emotion,emotion_empathy["general"]))
-    support = random.choice(friend_support)
+    validation = random.choice(validation_pool)
+    support = random.choice(support_pool)
+    curiosity = random.choice(curiosity_pool)
     suggestions = coping_suggestions()
+
+    memory_reference = ""
+
+    if len(st.session_state.topic_memory) > 1:
+
+        topic = st.session_state.topic_memory[-2]
+
+        if topic != "general":
+            memory_reference = f"Earlier you mentioned something related to {topic}. That can be really hard to deal with.\n\n"
 
     if mode == "Supportive Friend":
 
         if prob > 0.65:
 
             return f"""
-{empathy}
+{memory_reference}{validation}
 
 {support}
-
-Feeling this way for a long time can be exhausting.
 
 🌿 Something that might help a little right now:
 
 {suggestions}
 
-You're not alone in this.
+{curiosity}
 """
 
         elif prob > 0.40:
 
             return f"""
-{empathy}
+{memory_reference}{validation}
 
 {support}
 
@@ -191,7 +226,7 @@ Sometimes even small things can help shift the feeling.
             return f"""
 {support}
 
-If you'd like, you can tell me more about what's been on your mind.
+{curiosity}
 """
 
     else:
@@ -201,7 +236,7 @@ If you'd like, you can tell me more about what's been on your mind.
             return f"""
 Thank you for sharing that.
 
-{empathy}
+{memory_reference}{validation}
 
 Sometimes when emotions build up they can feel overwhelming.
 
@@ -209,7 +244,7 @@ Sometimes when emotions build up they can feel overwhelming.
 
 {suggestions}
 
-If you'd like, you can tell me more about what's been happening.
+{curiosity}
 """
 
         elif prob > 0.40:
@@ -217,7 +252,7 @@ If you'd like, you can tell me more about what's been happening.
             return f"""
 I appreciate you opening up.
 
-{empathy}
+{validation}
 
 🌿 One small step that sometimes helps:
 
@@ -232,33 +267,52 @@ Thank you for reflecting on how you're feeling.
 If you'd like, you can share more about what's on your mind.
 """
 
-# -------------------------
-# SESSION STATE
-# -------------------------
+# -----------------------------
+# MOOD GRAPH
+# -----------------------------
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+st.sidebar.markdown("### Mood Graph")
 
-if "topic_memory" not in st.session_state:
-    st.session_state.topic_memory = []
+if st.session_state.emotion_history:
 
-# -------------------------
-# REFLECTION PANEL
-# -------------------------
+    mood_map = {
+        "loneliness":4,
+        "sadness":5,
+        "stress":4,
+        "anxiety":5,
+        "social":3,
+        "selfworth":4,
+        "general":2
+    }
 
-with st.sidebar.expander("Conversation Signals"):
+    values = [mood_map.get(e,2) for e in st.session_state.emotion_history]
 
-    if st.session_state.topic_memory:
+    df = pd.DataFrame(values, columns=["Mood Level"])
 
-        for topic in set(st.session_state.topic_memory):
-            st.write("•",topic)
+    st.sidebar.line_chart(df)
 
-    else:
-        st.write("No strong signals yet")
+# -----------------------------
+# BREATHING EXERCISE
+# -----------------------------
 
-# -------------------------
-# WELCOME BOX
-# -------------------------
+if st.sidebar.button("🌬 Calm Breathing Exercise"):
+
+    st.sidebar.write("Follow the breathing guide:")
+
+    for i in range(3):
+
+        st.sidebar.write("Breathe in...")
+        time.sleep(3)
+
+        st.sidebar.write("Hold...")
+        time.sleep(3)
+
+        st.sidebar.write("Breathe out...")
+        time.sleep(4)
+
+# -----------------------------
+# WELCOME PANEL
+# -----------------------------
 
 if len(st.session_state.messages) == 0:
 
@@ -275,49 +329,62 @@ There's no pressure here.
 Just talk.
 """)
 
-    col1,col2,col3,col4 = st.columns(4)
+    c1,c2,c3,c4 = st.columns(4)
 
-    if col1.button("😔 Feeling lonely"):
+    if c1.button("😔 Feeling lonely"):
         st.session_state.messages.append({"role":"user","content":"I've been feeling lonely lately."})
 
-    if col2.button("😓 Feeling stressed"):
+    if c2.button("😓 Feeling stressed"):
         st.session_state.messages.append({"role":"user","content":"I've been feeling stressed lately."})
 
-    if col3.button("🤔 Overthinking"):
+    if c3.button("🤔 Overthinking"):
         st.session_state.messages.append({"role":"user","content":"I've been overthinking a lot recently."})
 
-    if col4.button("💭 Just want to talk"):
-        st.session_state.messages.append({"role":"user","content":"I just needed someone to talk to."})
+    if c4.button("💭 Just want to talk"):
+        st.session_state.messages.append({"role":"user","content":"I just wanted someone to talk to."})
 
-# -------------------------
+# -----------------------------
 # DISPLAY CHAT
-# -------------------------
+# -----------------------------
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-# -------------------------
+# -----------------------------
 # USER INPUT
-# -------------------------
+# -----------------------------
 
 user_input = st.chat_input("Share what's on your mind...")
 
-greeting_words = ["hi","hello","hey","yo"]
-closing_words = ["bye","thanks","thank you","im done","i'm done","bye for now"]
+greetings = ["hi","hello","hey","yo"]
+closings = ["bye","thanks","thank you","im done","i'm done","bye for now"]
 
 if user_input:
 
     st.chat_message("user").write(user_input)
 
     st.session_state.messages.append({
-    "role":"user",
-    "content":user_input
+        "role":"user",
+        "content":user_input
     })
 
     text = user_input.lower().strip()
 
-    # Greeting
-    if text in greeting_words:
+    # CRISIS RESPONSE
+    if any(word in text for word in crisis_words):
+
+        response = """
+I'm really sorry that you're feeling this much pain.
+
+You don't have to go through this alone.
+
+If you can, consider reaching out to someone you trust or a trained counselor.
+
+Talking to a real person right now could really help.
+"""
+
+    # GREETING
+    elif text in greetings:
 
         response = random.choice([
         "Hey. I'm here. How are you feeling today?",
@@ -326,8 +393,8 @@ if user_input:
         "Hey. I'm listening."
         ])
 
-    # Closing
-    elif any(c in text for c in closing_words):
+    # CLOSING
+    elif any(c in text for c in closings):
 
         response = random.choice([
         "Take care of yourself today. You're always welcome here.",
@@ -343,15 +410,18 @@ if user_input:
         emotion = detect_emotion(user_input)
 
         st.session_state.topic_memory.append(emotion)
+        st.session_state.emotion_history.append(emotion)
 
-        response = generate_response(prob,emotion,mode)
+        response = generate_response(prob, emotion, mode)
 
-    # Thinking animation
+    # THINKING ANIMATION
+
     with st.chat_message("assistant"):
 
         placeholder = st.empty()
-        placeholder.markdown("● ● ● thinking")
-        time.sleep(1)
+
+        placeholder.markdown("🌿 Nira is thinking...")
+        time.sleep(0.6)
 
         typed = ""
 
@@ -361,6 +431,6 @@ if user_input:
             time.sleep(0.01)
 
     st.session_state.messages.append({
-    "role":"assistant",
-    "content":response
+        "role":"assistant",
+        "content":response
     })
