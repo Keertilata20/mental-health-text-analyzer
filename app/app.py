@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 import random
 
-# Load model
+# Load ML model
 model = joblib.load("model/depression_model.pkl")
 vectorizer = joblib.load("model/vectorizer.pkl")
 
@@ -21,15 +21,15 @@ Talk about how you're feeling and the AI will listen and offer support.
 # Assistant personality selector
 mode = st.sidebar.selectbox(
     "Assistant Style",
-    ["Supportive Friend", "Calm Therapist"]
+    ["Supportive Friend", "Counselor"]
 )
 
-# Emotion keyword detection
+# Emotion keywords
 emotion_keywords = {
-    "loneliness": ["lonely","alone","nobody","isolated"],
-    "sadness": ["sad","empty","hopeless","worthless"],
-    "stress": ["tired","overwhelmed","exhausted","burnt"],
-    "social_pain": ["friends","ignored","rejected","talk"]
+    "loneliness": ["lonely","alone","isolated","nobody"],
+    "sadness": ["sad","hopeless","empty","worthless"],
+    "stress": ["tired","exhausted","overwhelmed","burnt"],
+    "social": ["ignored","rejected","friends","roommates"]
 }
 
 def detect_emotion(text):
@@ -40,21 +40,41 @@ def detect_emotion(text):
                 return emotion
     return "general"
 
+
 # Coping suggestions
 def coping_suggestions():
 
     suggestions = [
-        "Take 5 slow deep breaths and focus on the feeling of breathing.",
-        "Step outside for a short walk or get some fresh air.",
-        "Write down what you're feeling in a journal.",
+        "Take 5 slow deep breaths and focus only on breathing.",
+        "Step outside for a short walk or fresh air.",
+        "Write your thoughts in a journal for a few minutes.",
         "Send a small message to someone you trust.",
-        "Drink some water and take a short pause.",
-        "Listen to a song that usually comforts you."
+        "Listen to music that usually comforts you.",
+        "Drink some water and take a short pause."
     ]
 
     chosen = random.sample(suggestions,3)
 
     return "\n".join([f"• {c}" for c in chosen])
+
+
+# Friend reaction pools
+friend_reactions = [
+    "Yeah, that sounds really frustrating.",
+    "That must feel really heavy to deal with.",
+    "I can understand why that would hurt.",
+    "That sounds exhausting honestly.",
+    "Anyone in that situation would feel upset."
+]
+
+friend_support = [
+    "I'm really glad you shared that with me.",
+    "Talking about it is actually a strong step.",
+    "You don't have to carry this alone.",
+    "Your feelings make sense.",
+    "I'm here with you."
+]
+
 
 # Response generator
 def generate_response(prob, emotion, mode):
@@ -63,78 +83,70 @@ def generate_response(prob, emotion, mode):
 
     if mode == "Supportive Friend":
 
+        reaction = random.choice(friend_reactions)
+        support = random.choice(friend_support)
+
         if prob > 0.65:
 
-            responses = [
-                "I'm really glad you told me that. It sounds like you're going through a difficult time.",
-                "That sounds really heavy. I'm glad you're sharing this instead of holding it inside.",
-                "I'm here with you. What you're describing sounds really painful."
-            ]
-
             return f"""
-{random.choice(responses)}
+{reaction}
 
-Feeling this way can be exhausting. You're not weak for experiencing it.
+{support}
 
-🌿 A few small things that might help right now:
+Feeling this way for a long time can be really exhausting.
+
+🌿 Something that might help a little right now:
 
 {suggestions}
 
-You don't have to go through this alone ❤️
-
-Would you like to tell me more about what's been happening lately?
+You don't have to go through this alone.
 """
 
         elif prob > 0.40:
 
-            responses = [
-                "Thanks for sharing how you're feeling.",
-                "I'm really glad you're talking about this.",
-                "Sometimes saying these feelings out loud can help a little."
-            ]
-
             return f"""
-{random.choice(responses)}
+{reaction}
 
-It sounds like things might be weighing on you.
+{support}
 
-🌿 Something small that might help right now:
+Sometimes even small things can help shift the feeling a little.
+
+🌿 Maybe try one of these:
 
 {suggestions}
-
-Do these feelings happen often or did something happen recently?
 """
 
         else:
 
-            responses = [
-                "Thanks for sharing that with me.",
-                "I'm glad you checked in with yourself emotionally.",
-                "It's always good to pause and notice how you're feeling."
+            light_lines = [
+                "I'm glad you checked in with yourself.",
+                "It's good that you're talking about how you feel.",
+                "Sometimes just saying things out loud can help."
             ]
 
             return f"""
-{random.choice(responses)}
+{random.choice(light_lines)}
 
-If you'd like, you can tell me more about what's been on your mind lately.
+If you'd like, you can tell me more about what's been on your mind.
 """
 
-    else:  # Therapist mode
+
+    else:  # Counselor mode
 
         if prob > 0.65:
 
             return f"""
-Thank you for sharing that. It sounds like you're going through something very difficult.
+Thank you for sharing that.
 
-Sometimes when emotional pain builds up, it can feel overwhelming and isolating.
+It sounds like you're carrying something very heavy right now.
 
-🌿 You might consider trying one of these small grounding steps:
+Sometimes when emotional pain builds up it can start to feel overwhelming.
+
+🌿 You might try one small grounding step:
 
 {suggestions}
 
-If these feelings continue, it could also help to talk with a trusted person or a mental health professional.
-
-Would you like to tell me when these feelings started?
+If you'd like, you can tell me more about when these feelings started.
 """
 
         elif prob > 0.40:
@@ -144,30 +156,32 @@ I appreciate you opening up about this.
 
 It sounds like you're experiencing some emotional strain.
 
-🌿 You might try one of these small self-care steps:
+🌿 One small step that sometimes helps:
 
 {suggestions}
 
-Would you like to share more about what has been happening recently?
+Would you like to share more about what's been happening recently?
 """
 
         else:
 
             return """
-Thank you for sharing how you're feeling.
+Thank you for reflecting on how you're feeling.
 
-Taking time to reflect on your emotions is an important step toward understanding yourself better.
+Taking time to notice emotions is an important step toward understanding yourself.
 
 If you'd like, you can tell me more about what's been on your mind.
 """
+
 
 # Chat memory
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display previous messages
+# Show previous messages
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
+
 
 # User input
 user_input = st.chat_input("Tell me how you're feeling...")
@@ -182,6 +196,7 @@ question_words = [
     "what now",
     "what do you suggest"
 ]
+
 
 if user_input:
 
@@ -199,14 +214,14 @@ if user_input:
         response = """
 Could you tell me a bit more about how you're feeling?
 
-For example:
+Example:
 • "I feel really tired and unmotivated lately"
 • "I feel lonely and disconnected from people"
 """
 
     else:
 
-        # If the user asks for advice, use previous emotion context
+        # Advice follow-up using previous context
         if any(q in text for q in question_words):
 
             if "last_emotion" in st.session_state:
@@ -225,13 +240,13 @@ For example:
 
                 st.stop()
 
-        # Otherwise run ML prediction
+        # ML prediction
         vector = vectorizer.transform([user_input])
         prob = model.predict_proba(vector)[0][1]
 
         emotion = detect_emotion(user_input)
 
-        # Save context
+        # Save conversation context
         st.session_state.last_emotion = emotion
         st.session_state.last_prob = prob
 
