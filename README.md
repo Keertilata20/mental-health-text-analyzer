@@ -18,7 +18,7 @@
 ## 🚀 Live Demo
 
 👉 **Try TalkSpace:**
-https://your-streamlit-link.streamlit.app
+https://mental-health-analyser-ai.streamlit.app/
 
 ---
 
