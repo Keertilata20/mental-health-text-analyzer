@@ -62,6 +62,108 @@ Users can switch between:
 • **Counselor Mode**
 
 ---
+## 🧠 System Architecture
+
+TalkSpace uses a hybrid approach combining **machine learning classification** with **rule-based conversation design**.
+
+### Pipeline
+
+User Input → Text Vectorization → ML Prediction → Emotion Detection → Response Generation → Conversation Memory Update
+
+### Core Components
+
+**1. Text Vectorization**
+
+User messages are converted into numerical representations using a trained vectorizer.
+
+* TF-IDF vectorization
+* Sparse text feature representation
+
+---
+
+**2. Depression Signal Classifier**
+
+A trained machine learning model estimates emotional intensity from the input text.
+
+Model output:
+
+* probability score of emotional distress
+* used to guide response strategy
+
+---
+
+**3. Emotion Detection Layer**
+
+A lightweight keyword-based signal detection identifies emotional themes:
+
+* loneliness
+* sadness
+* anxiety
+* stress
+* social conflict
+* self-worth issues
+
+These signals help shape the tone of the response.
+
+---
+
+**4. Response Strategy Engine**
+
+The response generator combines:
+
+* validation phrases
+* supportive messages
+* reflective questions
+* grounding suggestions
+
+The system selects responses dynamically based on:
+
+* predicted emotional intensity
+* detected emotion category
+* selected conversation style
+
+---
+
+**5. Conversation Memory**
+
+The system maintains short-term conversation context:
+
+* remembers previous emotional themes
+* references earlier discussion topics
+* adapts follow-up prompts accordingly
+
+This creates more **natural multi-turn conversations**.
+
+---
+
+**6. UI Layer**
+
+The interface is built with Streamlit and includes:
+
+* chat interface
+* mood trend visualization
+* emotional signal display
+* calming tools
+
+The UI is designed to feel **minimal, calm, and conversational**.
+
+---
+
+## 📊 Model Training
+
+The machine learning model was trained on a cleaned dataset of Reddit mental-health related posts.
+
+Training process included:
+
+* text cleaning
+* TF-IDF vectorization
+* supervised classification
+* probability prediction using Scikit-learn
+
+The trained model and vectorizer are stored using **Joblib** for fast loading in the application.
+
+---
+
 
 ### 🧠 Emotion-Aware Conversation
 
@@ -136,8 +238,17 @@ A trained machine learning model estimates emotional intensity and guides conver
 
 ---
 
+## ⚙️ Technical Highlights
 
+* Built a **machine-learning driven conversation system** combining ML classification with rule-based response design
+* Implemented **emotion signal detection** for contextual conversation responses
+* Designed a **multi-turn conversation memory system**
+* Developed a **probability-driven response strategy engine**
+* Integrated **interactive visualization of emotional trends**
+* Implemented **real-time UI interactions** using Streamlit
+* Added **support tools such as guided breathing and calming prompts**
 
+---
 
 # 🚀 Running Locally
 
