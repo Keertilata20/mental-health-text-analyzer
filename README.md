@@ -15,8 +15,6 @@
 </p>
 
 
-💬 Built to feel less like a chatbot — and more like someone who listens.
-
 ---
 
 ## 🚀 Live Demo
@@ -49,6 +47,8 @@ Unlike traditional chatbots focused on quick answers, TalkSpace focuses on:
 - offering gentle, supportive responses
 
 The goal is not just interaction — but emotional understanding.
+
+
 ---
 
 ## ✨ Core Features
@@ -77,6 +77,7 @@ The goal is not just interaction — but emotional understanding.
 - Soft affirmations to maintain a supportive environment
 
 ---
+
 ## 🧠 System Architecture
 TalkSpace follows a hybrid architecture combining machine learning classification with rule-based conversational logic.
 
@@ -113,11 +114,7 @@ Each component works together to ensure responses are:
 - conversationally natural
 
 
-
----
-
-
-## 🎨 UI Layer
+### 🎨 UI Layer
 
 Built with Streamlit, the interface is designed to feel:
 - minimal
@@ -164,7 +161,7 @@ A trained machine learning model estimates emotional intensity and guides conver
 Clone the repository:
 
 ```
-git clone https://github.com/yourusername/talkspace-ai
+git clone https://github.com/Keertilata20/talkspace-ai
 ```
 
 Navigate into the project:
