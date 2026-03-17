@@ -14,11 +14,14 @@
   <b>🌿 Your companion Nira is here to listen.</b>
 </p>
 
+
+💬 Built to feel less like a chatbot — and more like someone who listens.
+
 ---
 
 ## 🚀 Live Demo
 
-👉 **Try TalkSpace:**
+👉 **Try TalkSpace Live:**
 https://mental-health-analyser-ai.streamlit.app/
 
 ---
@@ -36,7 +39,7 @@ https://mental-health-analyser-ai.streamlit.app/
 
 ---
 
-# 🌱 The Idea
+## 🌱 The Idea
 
 TalkSpace is designed as a calm digital environment for conversation.
 
@@ -94,10 +97,22 @@ User Input → Text Vectorization → ML Prediction → Emotion Detection → Re
 | Conversation Memory       | Maintains short-term context for multi-turn conversations |
 | UI Layer (Streamlit)      | Provides chat interface and emotional visualization |
 
+### 🔍 Decision Logic
+
+The response strategy is dynamically selected based on:
+
+- predicted emotional intensity (ML output)
+- detected emotion category (rule-based layer)
+- selected conversation mode (user preference)
+
+This hybrid approach allows the system to remain both adaptive and controllable.
+
 Each component works together to ensure responses are:
 - emotionally aware
 - context-aware
 - conversationally natural
+
+
 
 ---
 
@@ -134,13 +149,13 @@ A trained machine learning model estimates emotional intensity and guides conver
 
 ## ⚙️ Technical Highlights
 
-* Built a **machine-learning driven conversation system** combining ML classification with rule-based response design
-* Implemented **emotion signal detection** for contextual conversation responses
-* Designed a **multi-turn conversation memory system**
-* Developed a **probability-driven response strategy engine**
-* Integrated **interactive visualization of emotional trends**
-* Implemented **real-time UI interactions** using Streamlit
-* Added **support tools such as guided breathing and calming prompts**
+- Designed a **hybrid conversational architecture** combining ML classification with rule-based response logic  
+- Implemented **TF-IDF based text vectorization and probabilistic prediction using Scikit-learn**  
+- Built an **emotion-aware response system** driven by keyword-based signal detection  
+- Developed a **dynamic response strategy engine** adapting to emotional intensity and context  
+- Implemented **multi-turn conversation memory** using session-based state tracking  
+- Integrated **real-time UI and interaction flow** using Streamlit  
+- Designed and implemented **calming tools (guided breathing, grounding prompts)**  
 
 ---
 
