@@ -9,7 +9,7 @@
 <p align="center">
   A calm digital space where thoughts feel safe to be shared.
 </p>
-
+Built with emotionally-aware AI, real-time UI adaptation, and human-centered design.
 <p align="center">
   <b>🌿 Your companion Nira is here to listen.</b>
 </p>
@@ -32,9 +32,12 @@ https://talkspace-ai.streamlit.app/
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-red?style=for-the-badge&logo=streamlit)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?style=for-the-badge&logo=scikitlearn)
 ![NLP](https://img.shields.io/badge/NLP-Text%20Analysis-green?style=for-the-badge)
-![TF-IDF](https://img.shields.io/badge/Vectorizer-TF--IDF-purple?style=for-the-badge)
-![Logistic Regression](https://img.shields.io/badge/Model-Logistic%20Regression-yellow?style=for-the-badge)
+![LLM](https://img.shields.io/badge/LLM-LLaMA%203-purple?style=for-the-badge)
+![Supabase](https://img.shields.io/badge/Database-Supabase-3ECF8E?style=for-the-badge&logo=supabase)
+![UI/UX](https://img.shields.io/badge/UI-Emotion%20Aware-teal?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+![AI Companion](https://img.shields.io/badge/Product-AI%20Companion-ff69b4?style=for-the-badge)
+
 </p>
 
 ---
@@ -67,8 +70,28 @@ The goal is not just interaction — but emotional understanding.
 - Maintains short-term context across turns
 - References previous emotional themes naturally
 
-📊 **Mood Journey Tracking**
-- Visualizes emotional trends across the conversation
+🎨 **Emotion-Aware UI**
+- Sidebar dynamically reflects user emotional state
+- Includes:
+  - 🌿 “Right now” emotional summary
+  - 🧘 Mood ring (color-coded emotional state)
+- Real-time updates based on detected emotion
+
+🚨 **Crisis Detection System**
+- Detects high-risk emotional signals (self-harm, hopelessness)
+- Triggers:
+  - Critical state indicator in UI
+  - Emotion-aware response handling
+- Prioritized over normal conversation flow
+
+🗂 **Multi-Conversation Support**
+- Users can create and switch between multiple chats
+- Conversations are stored and retrieved dynamically
+
+🔁 **Non-Repetitive Responses**
+- Dynamic response generation using LLM
+- Avoids repeated phrasing patterns
+- More natural and human-like interaction
 
 🌬 **Calm Tools**
 - Guided breathing
@@ -99,6 +122,7 @@ User Input → Text Vectorization → ML Prediction → Emotion Detection → Re
 | Response Strategy Engine  | Generates responses using validation, support, and suggestions |
 | Conversation Memory       | Maintains short-term context for multi-turn conversations |
 | UI Layer (Streamlit)      | Provides chat interface and emotional visualization |
+| Crisis Detection Layer    | Identifies high-risk emotional signals and overrides response strategy |
 
 ### 🔍 Decision Logic
 
@@ -141,6 +165,8 @@ Includes:
 | ML Library     | Scikit-learn |
 | Data Handling  | Pandas |
 | Model Storage  | Joblib |
+| Backend / DB   | Supabase |
+| LLM API        | OpenRouter (LLaMA 3) |
 
 A trained machine learning model estimates emotional intensity and guides conversation responses.
 
@@ -154,7 +180,11 @@ A trained machine learning model estimates emotional intensity and guides conver
 - Developed a **dynamic response strategy engine** adapting to emotional intensity and context  
 - Implemented **multi-turn conversation memory** using session-based state tracking  
 - Integrated **real-time UI and interaction flow** using Streamlit  
-- Designed and implemented **calming tools (guided breathing, grounding prompts)**  
+- Designed and implemented **calming tools (guided breathing, grounding prompts)** 
+- Implemented **real-time emotion-driven UI updates** (mood ring + sidebar state)
+- Designed a **crisis detection and response override system**
+- Integrated **multi-conversation persistence using Supabase**
+- Built **non-repetitive response generation using LLM (OpenRouter)** 
 
 ---
 
@@ -192,7 +222,7 @@ Planned upgrades include:
 
 * richer emotional understanding
 * improved conversation memory
-* better mood visualization
+* animated mood ring and intensity-based UI
 * voice-based interaction
 * expanded calming tools
 
