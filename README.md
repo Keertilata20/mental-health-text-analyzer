@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="screenshots/talkspace-ai-banner.png" width="100%" />
+  <img src="screenshots/banner.png" width="100%" />
 </p>
 
 <p align="center">
@@ -9,11 +9,14 @@
 <p align="center">
   A calm digital space where thoughts feel safe to be shared.
 </p>
-Built with emotionally-aware AI, real-time UI adaptation, and human-centered design.
+
 <p align="center">
   <b>🌿 Your companion Nira is here to listen.</b>
 </p>
 
+<p align="center">
+  Built with emotionally-aware AI, real-time UI adaptation, and human-centered design.
+</p>
 
 ---
 
@@ -24,19 +27,18 @@ https://talkspace-ai.streamlit.app/
 
 ---
 
-## 🏷 Tech Badges
+## 🏷 Tech Stack & Badges
 
 <p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-red?style=for-the-badge&logo=streamlit)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?style=for-the-badge&logo=scikitlearn)
+![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge\&logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-red?style=for-the-badge\&logo=streamlit)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?style=for-the-badge\&logo=scikitlearn)
 ![NLP](https://img.shields.io/badge/NLP-Text%20Analysis-green?style=for-the-badge)
 ![LLM](https://img.shields.io/badge/LLM-LLaMA%203-purple?style=for-the-badge)
-![Supabase](https://img.shields.io/badge/Database-Supabase-3ECF8E?style=for-the-badge&logo=supabase)
-![UI/UX](https://img.shields.io/badge/UI-Emotion%20Aware-teal?style=for-the-badge)
+![Supabase](https://img.shields.io/badge/Database-Supabase-3ECF8E?style=for-the-badge\&logo=supabase)
+![UI](https://img.shields.io/badge/UI-Emotion%20Aware-teal?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![AI Companion](https://img.shields.io/badge/Product-AI%20Companion-ff69b4?style=for-the-badge)
 
 </p>
 
@@ -47,199 +49,144 @@ https://talkspace-ai.streamlit.app/
 TalkSpace is designed as a calm digital environment for conversation.
 
 Unlike traditional chatbots focused on quick answers, TalkSpace focuses on:
-- helping users feel heard
-- maintaining natural, human-like dialogue
-- offering gentle, supportive responses
 
-The goal is not just interaction — but emotional understanding.
+* helping users feel heard
+* maintaining natural, human-like dialogue
+* offering gentle, supportive responses
 
+The goal is not just interaction — but emotional presence.
 
 ---
 
 ## ✨ Core Features
 
 🌿 **AI Companion – Nira**
-- Conversational agent designed for warmth and empathy
-- Supports dual modes: Supportive Friend / Counselor
 
-🧠 **Emotion-Aware Responses**
-- Detects emotional signals (loneliness, stress, anxiety, etc.)
-- Adapts tone and response strategy dynamically
+* Conversational agent designed for warmth and empathy
+* Supports dual modes: Supportive Friend / Counselor
 
-💬 **Conversation Memory**
-- Maintains short-term context across turns
-- References previous emotional themes naturally
+🧠 **Emotion Awareness**
+
+* Detects emotional signals (loneliness, stress, anxiety, etc.)
+* Adapts tone and response dynamically
 
 🎨 **Emotion-Aware UI**
-- Sidebar dynamically reflects user emotional state
-- Includes:
-  - 🌿 “Right now” emotional summary
-  - 🧘 Mood ring (color-coded emotional state)
-- Real-time updates based on detected emotion
+
+* Sidebar reflects real-time emotional state
+* Includes:
+
+  * 🌿 “Right now” summary
+  * 🧘 Mood ring (color-based state)
 
 🚨 **Crisis Detection System**
-- Detects high-risk emotional signals (self-harm, hopelessness)
-- Triggers:
-  - Critical state indicator in UI
-  - Emotion-aware response handling
-- Prioritized over normal conversation flow
+
+* Identifies high-risk emotional signals
+* Overrides normal flow with supportive responses
+* Updates UI to reflect critical state
+
+💬 **Conversation Intelligence**
+
+* Maintains short-term conversational memory
+* Context-aware responses using recent messages
 
 🗂 **Multi-Conversation Support**
-- Users can create and switch between multiple chats
-- Conversations are stored and retrieved dynamically
 
-🔁 **Non-Repetitive Responses**
-- Dynamic response generation using LLM
-- Avoids repeated phrasing patterns
-- More natural and human-like interaction
+* Create, switch, and persist multiple chats
+* Backed by Supabase
 
 🌬 **Calm Tools**
-- Guided breathing
-- Grounding suggestions
-- Reflection prompts
+
+* Guided breathing
+* Grounding interactions
 
 🌱 **Gentle Reminders**
-- Soft affirmations to maintain a supportive environment
+
+* Soft affirmations for a supportive environment
 
 ---
 
 ## 🧠 System Architecture
-TalkSpace follows a hybrid architecture combining machine learning classification with rule-based conversational logic.
 
-The system processes user input through multiple stages to generate context-aware, emotionally aligned responses.
+TalkSpace uses a hybrid approach combining machine learning with conversational logic.
 
 ### Pipeline
 
-User Input → Text Vectorization → ML Prediction → Emotion Detection → Response Generation → Memory Update
-
-### 🧩 Component Overview
-
-| Component                  | Description |
-|---------------------------|------------|
-| Text Vectorization        | Converts user input into TF-IDF numerical features |
-| ML Classifier             | Predicts emotional intensity (probability score) |
-| Emotion Detection Layer   | Identifies emotional themes using keyword signals |
-| Response Strategy Engine  | Generates responses using validation, support, and suggestions |
-| Conversation Memory       | Maintains short-term context for multi-turn conversations |
-| UI Layer (Streamlit)      | Provides chat interface and emotional visualization |
-| Crisis Detection Layer    | Identifies high-risk emotional signals and overrides response strategy |
-
-### 🔍 Decision Logic
-
-The response strategy is dynamically selected based on:
-
-- predicted emotional intensity (ML output)
-- detected emotion category (rule-based layer)
-- selected conversation mode (user preference)
-
-This hybrid approach allows the system to remain both adaptive and controllable.
-
-Each component works together to ensure responses are:
-- emotionally aware
-- context-aware
-- conversationally natural
-
-
-### 🎨 UI Layer
-
-Built with Streamlit, the interface is designed to feel:
-- minimal
-- calm
-- conversational
-
-Includes:
-- chat interface
-- mood visualization
-- emotional signal tracking
-- calming interaction tools
-
+User Input → Emotion Detection → Response Strategy → LLM Generation → Memory Update → UI Sync
 
 ---
 
-## ⚙️ Tech Stack
+### 🧩 Key Components
 
-| Category        | Tools |
-|----------------|------|
-| Language       | Python |
-| Framework      | Streamlit |
-| ML Library     | Scikit-learn |
-| Data Handling  | Pandas |
-| Model Storage  | Joblib |
-| Backend / DB   | Supabase |
-| LLM API        | OpenRouter (LLaMA 3) |
-
-A trained machine learning model estimates emotional intensity and guides conversation responses.
+| Component                | Description                                        |
+| ------------------------ | -------------------------------------------------- |
+| Emotion Detection        | Identifies emotional signals using keyword logic   |
+| Response Strategy Engine | Selects response type based on emotion + intensity |
+| LLM Layer (OpenRouter)   | Generates natural, human-like responses            |
+| Conversation Memory      | Maintains short-term conversational context        |
+| Crisis Detection Layer   | Overrides flow for high-risk situations            |
+| UI Layer (Streamlit)     | Real-time emotional visualization                  |
 
 ---
 
 ## ⚙️ Technical Highlights
 
-- Designed a **hybrid conversational architecture** combining ML classification with rule-based response logic  
-- Implemented **TF-IDF based text vectorization and probabilistic prediction using Scikit-learn**  
-- Built an **emotion-aware response system** driven by keyword-based signal detection  
-- Developed a **dynamic response strategy engine** adapting to emotional intensity and context  
-- Implemented **multi-turn conversation memory** using session-based state tracking  
-- Integrated **real-time UI and interaction flow** using Streamlit  
-- Designed and implemented **calming tools (guided breathing, grounding prompts)** 
-- Implemented **real-time emotion-driven UI updates** (mood ring + sidebar state)
-- Designed a **crisis detection and response override system**
-- Integrated **multi-conversation persistence using Supabase**
-- Built **non-repetitive response generation using LLM (OpenRouter)** 
+* Designed a **hybrid architecture** combining ML classification with rule-based conversational control
+* Built a **real-time emotion tracking system** that synchronizes UI and conversation state
+* Implemented **state-driven UI rendering** using Streamlit session management
+* Developed a **priority-based response system** (crisis overrides normal flow)
+* Integrated **LLM-based response generation** with contextual memory
+* Engineered **multi-conversation persistence** using Supabase
+* Optimized for **natural conversation flow** by reducing repetition
 
 ---
 
-# 🚀 Running Locally
+## ⚙️ Tech Stack
 
-Clone the repository:
+| Category      | Tools        |
+| ------------- | ------------ |
+| Language      | Python       |
+| Framework     | Streamlit    |
+| ML Library    | Scikit-learn |
+| Database      | Supabase     |
+| LLM API       | OpenRouter   |
+| Data Handling | Pandas       |
+| Model Storage | Joblib       |
 
-```
+---
+
+## 🚀 Running Locally
+
+```bash
 git clone https://github.com/Keertilata20/talkspace-ai
-```
-
-Navigate into the project:
-
-```
 cd talkspace-ai
-```
-
-Install dependencies:
-
-```
 pip install -r requirements.txt
-```
-
-Run the app:
-
-```
 streamlit run app.py
 ```
 
 ---
 
-# 🔭 Future Improvements
+## 🔭 Future Improvements
 
-Planned upgrades include:
-
-* richer emotional understanding
-* improved conversation memory
-* animated mood ring and intensity-based UI
+* animated mood ring based on intensity
+* deeper emotional understanding
+* improved long-term memory
 * voice-based interaction
-* expanded calming tools
+* enhanced calming experiences
 
 ---
 
-# ⚠️ Disclaimer
+## ⚠️ Disclaimer
 
 TalkSpace is **not a medical or diagnostic tool**.
-
-It is designed as a supportive conversation environment only.
 
 If you are experiencing severe emotional distress, please consider reaching out to a trained professional or someone you trust.
 
 ---
 
-# 👤 Author
+## 👤 Author
 
-Built with care while exploring the intersection of:
+Built with care while exploring:
 
 **AI • conversation design • human-centered technology**
+
+🌿
