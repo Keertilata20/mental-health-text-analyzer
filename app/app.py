@@ -1,8 +1,6 @@
 import streamlit as st
-import joblib
 import random
 import time
-import pandas as pd
 import requests
 from dotenv import load_dotenv
 import os
@@ -11,19 +9,14 @@ from supabase import create_client, Client
 import uuid
 from streamlit_js_eval import streamlit_js_eval
 
-SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
-
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
-load_dotenv()
-
-
 # -----------------------------
-# USER IDENTIFICATION
+# USER IDENTIFICATION (FIXED ORDER)
 # -----------------------------
-# get local storage user_id
-stored_user = streamlit_js_eval(js_expressions="localStorage.getItem('user_id')", key="get_user")
+stored_user = streamlit_js_eval(
+    js_expressions="localStorage.getItem('user_id')",
+    key="get_user"
+)
+
 if "user_id" not in st.session_state:
 
     if stored_user:
@@ -33,13 +26,40 @@ if "user_id" not in st.session_state:
         new_id = str(uuid.uuid4())
         st.session_state.user_id = new_id
 
-        # store in browser
         streamlit_js_eval(
             js_expressions=f"localStorage.setItem('user_id', '{new_id}')",
             key="set_user"
         )
 
 # -----------------------------
+# CONVERSATION INITIALIZATION (FIX)
+# -----------------------------
+if "conversation_id" not in st.session_state:
+
+    # check if coming from URL
+    query_params = st.query_params
+
+    if "conversation_id" in query_params:
+        st.session_state.conversation_id = query_params["conversation_id"]
+
+    else:
+        new_conv = str(uuid.uuid4())
+        st.session_state.conversation_id = new_conv
+        st.query_params["conversation_id"] = new_conv
+
+#--------------------------------
+# supabase setup
+#--------------------------------
+
+SUPABASE_URL = st.secrets["SUPABASE_URL"]
+SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
+
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+load_dotenv()
+
+
+#------------------------------
 # PAGE CONFIG
 # -----------------------------
 
@@ -48,13 +68,6 @@ st.set_page_config(
     page_icon="🌿",
     layout="wide"
 )
-
-# -----------------------------
-# LOAD MODEL
-# -----------------------------
-
-model = joblib.load("model/depression_model.pkl")
-vectorizer = joblib.load("model/vectorizer.pkl")
 
 # -----------------------------
 # UI STYLE
@@ -276,12 +289,6 @@ def get_conversations():
 
     return conversations
 
-# -----------------------------
-# SIDEBAR
-# -----------------------------
-
-
-
 
 # -----------------------------
 # SESSION STATE
@@ -307,7 +314,8 @@ if "topic_memory" not in st.session_state:
 
 if "emotion_history" not in st.session_state:
     st.session_state.emotion_history = []
-
+if "intensity" not in st.session_state:
+    st.session_state.intensity = 0
 # -----------------------------
 # CRISIS DETECTION
 # -----------------------------
@@ -336,8 +344,6 @@ def is_crisis(text):
     "i wish i was dead",
     "i want to disappear",
     "life is pointless",
-    "i hate myself",
-    "i dont want to live",
     "i will kill",
     "kill this time",
     "i will surely kill",
@@ -916,9 +922,6 @@ for msg in st.session_state.messages:
 
 user_input = st.chat_input("Share what's on your mind...")
 
-greetings = ["hi","hello","hey","yo"]
-closings = ["bye","thanks","thank you","im done","i'm done","bye for now","bye bye", "later","thank you for now","i should leave"]
-
 if user_input:
 
     # clean input FIRST
@@ -943,14 +946,13 @@ if user_input:
     "user_id": st.session_state.user_id,
     "conversation_id": st.session_state.conversation_id,
     "role": "user",
-    "content": user_input
+    "content": clean_input
 }).execute()
 
     # normalized text for logic
     text = clean_input.lower()
     
-    if "intensity" not in st.session_state:
-        st.session_state.intensity = 0
+    
 
     # CRISIS RESPONSE (HIGHEST PRIORITY)
     if is_crisis(clean_input):
@@ -1023,5 +1025,5 @@ if user_input:
     "user_id": st.session_state.user_id,
     "conversation_id": st.session_state.conversation_id,
     "role": "assistant",
-    "content": response
+   "content": clean_input
 }).execute()
