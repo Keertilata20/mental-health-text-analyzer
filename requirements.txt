@@ -1,6 +1,4 @@
 streamlit
-joblib
-pandas
 requests
 python-dotenv
 scikit-learn
