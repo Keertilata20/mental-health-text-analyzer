@@ -120,7 +120,7 @@ TalkSpace uses a hybrid approach combining machine learning with conversational 
 
 User Input → Emotion Detection → Response Strategy → LLM Generation → Memory Update → UI Sync
 
----
+
 
 ### 🧩 Key Components
 
