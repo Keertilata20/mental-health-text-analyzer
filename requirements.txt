@@ -3,4 +3,3 @@ requests
 python-dotenv
 scikit-learn
 supabase
-streamlit-js-eval
