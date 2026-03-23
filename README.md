@@ -156,7 +156,6 @@ User Input → Emotion Detection → Response Strategy → LLM Generation → Me
 | ML Library    | Scikit-learn |
 | Database      | Supabase     |
 | LLM API       | OpenRouter   |
-| Data Handling | Pandas       |
 | Model Storage | Joblib       |
 
 ---
