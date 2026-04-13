@@ -61,7 +61,7 @@ Unlike traditional chatbots focused on quick answers, TalkSpace focuses on:
 * maintaining natural, human-like dialogue
 * offering gentle, supportive responses
 
-The goal is not just interaction — but emotional presence.
+The goal is not just interaction -- but emotional presence.
 
 ---
 
