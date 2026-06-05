@@ -191,6 +191,4 @@ If you are experiencing severe emotional distress, please consider reaching out 
 
 Built with care while exploring:
 
-**AI • conversation design • human-centered technology**
-
-🌿
+**AI • conversation design • human-centered technology** 🌿
