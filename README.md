@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  Built with emotionally-aware AI, real-time UI adaptation, and human-centered design.
+  Built with emotionally-aware AI, real-time UI adaptation and human-centered design.
 </p>
 
 ---
