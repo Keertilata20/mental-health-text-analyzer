@@ -70,7 +70,7 @@ The goal is not just interaction -- but emotional presence.
 🌿 **AI Companion – Nira**
 
 * Conversational agent designed for warmth and empathy
-* Supports dual modes: Supportive Friend / Counselor
+* Supports dual modes: Supportive Friend & Counselor
 
 🧠 **Emotion Awareness**
 
@@ -98,7 +98,7 @@ The goal is not just interaction -- but emotional presence.
 
 🗂 **Multi-Conversation Support**
 
-* Create, switch, and persist multiple chats
+* Create, switch and persist multiple chats
 * Backed by Supabase
 
 🌬 **Calm Tools**
