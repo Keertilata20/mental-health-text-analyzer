@@ -174,8 +174,9 @@ streamlit run app.py
 * animated mood ring based on intensity
 * deeper emotional understanding
 * improved long-term memory
-* voice-based interaction
+
 * enhanced calming experiences
+* voice-based interaction
 
 ---
 
